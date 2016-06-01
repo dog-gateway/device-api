@@ -17,6 +17,7 @@
  */
 package it.polito.elite.dog.communication.rest.device.api;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,6 +25,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -51,7 +53,7 @@ public interface DeviceRESTApi
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAllDevicesInJson();
+	public String getAllDevicesInJson(@Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Represents domotic devices handled by Dog and "controllable" applications
@@ -61,7 +63,7 @@ public interface DeviceRESTApi
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
-	public String getAllDevicesInXml();
+	public String getAllDevicesInXml(@Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Represents a single domotic device handled by Dog, identified by a unique
@@ -74,7 +76,7 @@ public interface DeviceRESTApi
 	@GET
 	@Path("/{device-id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getDeviceInJson(@PathParam("device-id") String deviceId);
+	public String getDeviceInJson(@PathParam("device-id") String deviceId, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Represents a single domotic device handled by Dog, identified by a unique
@@ -87,7 +89,7 @@ public interface DeviceRESTApi
 	@GET
 	@Path("/{device-id}")
 	@Produces(MediaType.APPLICATION_XML + "; qs=0.9")
-	public String getDeviceInXml(@PathParam("device-id") String deviceId);
+	public String getDeviceInXml(@PathParam("device-id") String deviceId, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Update the location of a single domotic device handled by Dog, identified
@@ -99,7 +101,7 @@ public interface DeviceRESTApi
 	@PUT
 	@Path("/{device-id}/location")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateDeviceLocation(@PathParam("device-id") String deviceId, String location);
+	public void updateDeviceLocation(@PathParam("device-id") String deviceId, String location, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Update the description (i.e., the long name) of a single domotic device
@@ -111,7 +113,7 @@ public interface DeviceRESTApi
 	@PUT
 	@Path("/{device-id}/description")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateDeviceDescription(@PathParam("device-id") String deviceId, String description);
+	public void updateDeviceDescription(@PathParam("device-id") String deviceId, String description, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Represents the status of the device identified by the given device-id and
@@ -123,7 +125,7 @@ public interface DeviceRESTApi
 	@GET
 	@Path("/{device-id}/status")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getDeviceStatus(@PathParam("device-id") String deviceId);
+	public String getDeviceStatus(@PathParam("device-id") String deviceId, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Represents the status of devices registered in the Dog gateway runtime,
@@ -135,7 +137,7 @@ public interface DeviceRESTApi
 	@GET
 	@Path("/status")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAllDeviceStatus();
+	public String getAllDeviceStatus(@Context HttpServletResponse httpResponse);
 	
 	/**
 	 * TODO: For testing purpose only
@@ -155,7 +157,7 @@ public interface DeviceRESTApi
 	@GET
 	@Path("{device-id}/commands/{command-name}")
 	public String executeCommandGet(@PathParam("device-id") String deviceId,
-			@PathParam("command-name") String commandName);
+			@PathParam("command-name") String commandName, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Represents a command, identified by a command-name, to be sent to the
@@ -175,7 +177,7 @@ public interface DeviceRESTApi
 	@Path("{device-id}/commands/{command-name}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void executeCommandPost(@PathParam("device-id") String deviceId,
-			@PathParam("command-name") String commandName, String commandParameters);
+			@PathParam("command-name") String commandName, String commandParameters, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Represents a command, identified by a command-name, to be sent to the
@@ -195,6 +197,6 @@ public interface DeviceRESTApi
 	@Path("{device-id}/commands/{command-name}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void executeCommandPut(@PathParam("device-id") String deviceId,
-			@PathParam("command-name") String commandName, String commandParameters);
+			@PathParam("command-name") String commandName, String commandParameters, @Context HttpServletResponse httpResponse);
 	
 }

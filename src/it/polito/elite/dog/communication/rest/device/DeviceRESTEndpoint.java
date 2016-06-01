@@ -24,14 +24,9 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.measure.Measure;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.JAXBContext;
@@ -246,9 +241,11 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 	 * getAllDevicesInJson()
 	 */
 	@Override
-	public String getAllDevicesInJson()
+	public String getAllDevicesInJson(HttpServletResponse httpResponse)
 	{
 		String devicesJSON = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the JAXB object containing all the configured devices
 		DogHomeConfiguration dhc = this.getAllDevices();
@@ -285,9 +282,11 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 	 * getAllDevicesInXml ()
 	 */
 	@Override
-	public String getAllDevicesInXml()
+	public String getAllDevicesInXml(HttpServletResponse httpResponse)
 	{
 		String devicesXML = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the JAXB object containing all the configured devices
 		DogHomeConfiguration dhc = this.getAllDevices();
@@ -343,9 +342,11 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 	 * getDeviceInJson(java.lang.String)
 	 */
 	@Override
-	public String getDeviceInJson(String deviceId)
+	public String getDeviceInJson(String deviceId, HttpServletResponse httpResponse)
 	{
 		String deviceJSON = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the requested device configuration, in JAXB
 		DogHomeConfiguration dhc = this.getDevice(deviceId);
@@ -383,9 +384,11 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 	 * getDeviceInXml (java.lang.String)
 	 */
 	@Override
-	public String getDeviceInXml(String deviceId)
+	public String getDeviceInXml(String deviceId, HttpServletResponse httpResponse)
 	{
 		String deviceXML = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the requested device configuration
 		DogHomeConfiguration dhc = this.getDevice(deviceId);
@@ -451,11 +454,14 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 	 * updateDeviceLocation(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void updateDeviceLocation(String deviceId, String location)
+	public void updateDeviceLocation(String deviceId, String location, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
 		Status response = null;
+		
+		this.setCORSSupport(httpResponse);
+		
 		if (location != null && !location.isEmpty())
 		{
 			// create filter for getting the desired device
@@ -548,11 +554,13 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 	 * updateDeviceDescription(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void updateDeviceDescription(String deviceId, String description)
+	public void updateDeviceDescription(String deviceId, String description, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
 		Status response = null;
+		
+		this.setCORSSupport(httpResponse);
 		
 		if (description != null && !description.isEmpty())
 		{
@@ -646,11 +654,13 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 	 * @see it.polito.elite.dog.communication.rest.device.api.DeviceRESTApi#
 	 * getAllDeviceStatus()
 	 */
-	public String getAllDeviceStatus()
+	public String getAllDeviceStatus(HttpServletResponse httpResponse)
 	{
 		// the response
 		String responseAsString = "";
 		boolean listIsEmpty = true;
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get all the installed device services
 		try
@@ -732,11 +742,13 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 	 * getDeviceStatus(java.lang.String)
 	 */
 	@Override
-	public String getDeviceStatus(String deviceId)
+	public String getDeviceStatus(String deviceId, HttpServletResponse httpResponse)
 	{
 		// the response
 		String responseAsString = "";
 		boolean listIsEmpty = true;
+		
+		this.setCORSSupport(httpResponse);
 		
 		// create filter for getting the desired device
 		String deviceFilter = String.format("(&(%s=*)(%s=%s))", Constants.DEVICE_CATEGORY, DeviceCostants.DEVICEURI,
@@ -907,32 +919,27 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 	}
 	
 	@Override
-	@GET
-	@Path("{device-id}/commands/{command-name}")
-	public String executeCommandGet(@PathParam("device-id") String deviceId,
-			@PathParam("command-name") String commandName)
+	public String executeCommandGet(String deviceId,
+			String commandName, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.executeCommand(deviceId, commandName, null);
 		return "Ok";
 	}
 	
 	@Override
-	@POST
-	@Path("{device-id}/commands/{command-name}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void executeCommandPost(@PathParam("device-id") String deviceId,
-			@PathParam("command-name") String commandName, String commandParameters)
+	public void executeCommandPost(String deviceId,
+			String commandName, String commandParameters, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.executeCommand(deviceId, commandName, commandParameters);
 	}
 	
 	@Override
-	@PUT
-	@Path("{device-id}/commands/{command-name}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void executeCommandPut(@PathParam("device-id") String deviceId,
-			@PathParam("command-name") String commandName, String commandParameters)
+	public void executeCommandPut(String deviceId,
+			String commandName, String commandParameters, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		this.executeCommand(deviceId, commandName, commandParameters);
 	}
 	
@@ -1053,4 +1060,8 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 		return devicesXML;
 	}
 	
+	private void setCORSSupport(HttpServletResponse response)
+	{
+		response.addHeader("Access-Control-Allow-Origin", "*");
+	}
 }
