@@ -27,6 +27,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * The interface defining the API for the devices, it permits to:
@@ -97,11 +98,12 @@ public interface DeviceRESTApi
 	 * 
 	 * @param deviceId
 	 *            the device unique identifier
+	 * @return 
 	 */
 	@PUT
 	@Path("/{device-id}/location")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateDeviceLocation(@PathParam("device-id") String deviceId, String location, @Context HttpServletResponse httpResponse);
+	public Response updateDeviceLocation(@PathParam("device-id") String deviceId, String location, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Update the description (i.e., the long name) of a single domotic device
@@ -109,11 +111,12 @@ public interface DeviceRESTApi
 	 * 
 	 * @param deviceId
 	 *            the device unique identifier
+	 * @return 
 	 */
 	@PUT
 	@Path("/{device-id}/description")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateDeviceDescription(@PathParam("device-id") String deviceId, String description, @Context HttpServletResponse httpResponse);
+	public Response updateDeviceDescription(@PathParam("device-id") String deviceId, String description, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Represents the status of the device identified by the given device-id and
@@ -156,7 +159,7 @@ public interface DeviceRESTApi
 	 */
 	@GET
 	@Path("{device-id}/commands/{command-name}")
-	public String executeCommandGet(@PathParam("device-id") String deviceId,
+	public Response executeCommandGet(@PathParam("device-id") String deviceId,
 			@PathParam("command-name") String commandName, @Context HttpServletResponse httpResponse);
 	
 	/**
@@ -172,11 +175,12 @@ public interface DeviceRESTApi
 	 *            The command to be executed
 	 * @param commandParameters
 	 *            Any possible command parameter (one in this version)
+	 * @return 
 	 */
 	@POST
 	@Path("{device-id}/commands/{command-name}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void executeCommandPost(@PathParam("device-id") String deviceId,
+	public Response executeCommandPost(@PathParam("device-id") String deviceId,
 			@PathParam("command-name") String commandName, String commandParameters, @Context HttpServletResponse httpResponse);
 	
 	/**
@@ -192,11 +196,12 @@ public interface DeviceRESTApi
 	 *            The command to be executed
 	 * @param commandParameters
 	 *            Any possible command parameter (one in this version)
+	 * @return 
 	 */
 	@PUT
 	@Path("{device-id}/commands/{command-name}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void executeCommandPut(@PathParam("device-id") String deviceId,
+	public Response executeCommandPut(@PathParam("device-id") String deviceId,
 			@PathParam("command-name") String commandName, String commandParameters, @Context HttpServletResponse httpResponse);
 	
 }
