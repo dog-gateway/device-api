@@ -239,6 +239,16 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 		this.deviceFactory.compareAndSet(deviceFactory, null);
 	}
 
+	
+	@Override
+	public Response options() {
+    	return Response.ok("")
+            .header("Access-Control-Allow-Origin", "*")
+            .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+            .header("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS, HEAD")
+            .build();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
