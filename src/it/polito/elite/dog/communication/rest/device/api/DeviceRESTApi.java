@@ -20,6 +20,7 @@ package it.polito.elite.dog.communication.rest.device.api;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -204,4 +205,8 @@ public interface DeviceRESTApi
 	public Response executeCommandPut(@PathParam("device-id") String deviceId,
 			@PathParam("command-name") String commandName, String commandParameters, @Context HttpServletResponse httpResponse);
 	
+	@OPTIONS
+	@Path("{device-id}/commands/{command-name}")
+	public Response options();
+
 }
