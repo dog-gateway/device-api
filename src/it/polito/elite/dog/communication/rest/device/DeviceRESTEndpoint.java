@@ -53,6 +53,7 @@ import it.polito.elite.dog.communication.rest.device.command.ExplicitTeachInPayl
 import it.polito.elite.dog.communication.rest.device.command.HSBColorPayload;
 import it.polito.elite.dog.communication.rest.device.command.MeasurePayload;
 import it.polito.elite.dog.communication.rest.device.command.RGBColorPayload;
+import it.polito.elite.dog.communication.rest.device.command.StringPayload;
 import it.polito.elite.dog.communication.rest.device.status.AllDeviceStatesResponsePayload;
 import it.polito.elite.dog.communication.rest.device.status.DeviceStateResponsePayload;
 import it.polito.elite.dog.core.devicefactory.api.DeviceFactory;
@@ -136,6 +137,7 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 		this.payloads.add(HSBColorPayload.class);
 		this.payloads.add(RGBColorPayload.class);
 		this.payloads.add(ExplicitTeachInPayload.class);
+		this.payloads.add(StringPayload.class);
 
 		// initialize the instance-wide object mapper
 		this.mapper = new ObjectMapper();
