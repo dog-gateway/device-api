@@ -47,6 +47,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
@@ -145,7 +146,8 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
 
         // create an introspector for parsing both Jackson and JAXB annotations
         AnnotationIntrospector jackson = new JacksonAnnotationIntrospector();
-        AnnotationIntrospector jaxb = new JaxbAnnotationIntrospector();
+        AnnotationIntrospector jaxb = new JaxbAnnotationIntrospector(
+                TypeFactory.defaultInstance());
         AnnotationIntrospector fullIntrospector = AnnotationIntrospector
                 .pair(jackson, jaxb);
         // make deserializer use both Jackson and JAXB annotations
