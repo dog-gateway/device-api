@@ -148,7 +148,7 @@ public class DeviceRESTEndpoint implements DeviceRESTApi
         AnnotationIntrospector fullIntrospector = AnnotationIntrospector
                 .pair(jackson, jaxb);
         // make deserializer use both Jackson and JAXB annotations
-        this.mapper.setAnnotationIntrospector(fullIntrospector);
+        this.mapper.setAnnotationIntrospector(jackson);
 
         // initialize the instance-wide XML mapper
         // create a JacksonXmlModule to customize XML parsing
